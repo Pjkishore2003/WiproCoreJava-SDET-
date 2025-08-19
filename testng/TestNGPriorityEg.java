@@ -1,0 +1,63 @@
+package com.wipro.testng;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+import java.time.Duration;
+
+public class TestNGPriorityEg {
+
+    WebDriver driver;
+
+    @BeforeMethod
+    public void setup() {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.get("https://practicetestautomation.com/practice-test-login/");
+    }
+
+    @Test(priority = 1)
+    public void testValidLogin() throws InterruptedException {
+        driver.findElement(By.xpath("//*[@id='username']")).sendKeys("student");
+        driver.findElement(By.xpath("//*[@id='password']")).sendKeys("Password123");
+        driver.findElement(By.xpath("//*[@id='submit']")).click();
+
+        
+        WebElement successHeading = driver.findElement(By.xpath("//h1[contains(text(), 'Logged In Successfully')]"));
+        Assert.assertTrue(successHeading.isDisplayed(), "Success message not displayed.");
+        Thread.sleep(4000);
+
+        
+        WebElement logoutButton = driver.findElement(By.xpath("//a[contains(text(),'Log out')]"));
+        Assert.assertTrue(logoutButton.isDisplayed(), "Logout button not visible.");
+
+        System.out.println("Valid login test passed.");
+    }
+
+    @Test(priority = 2)
+    public void testInvalidLogin() throws InterruptedException {
+        driver.findElement(By.xpath("//*[@id='username']")).sendKeys("invalid");
+        driver.findElement(By.xpath("//*[@id='password']")).sendKeys("wrongpass");
+        driver.findElement(By.xpath("//*[@id='submit']")).click();
+
+        // Check error message
+        WebElement errorMessage = driver.findElement(By.xpath("//*[@id='error']"));
+        Assert.assertTrue(errorMessage.isDisplayed(), "Error message not displayed.");
+        Assert.assertEquals(errorMessage.getText(), "Your username is invalid!", "Unexpected error message.");
+        Thread.sleep(4000);
+
+        System.out.println(" Invalid login test passed (error correctly shown).");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+    }
+}

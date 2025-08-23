@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+  <test name="LoginTests">
+    <classes>
+      <!-- Make sure this class name matches your file's package and class name exactly -->
+      <class name="javaSDET.testng.firstTest"/>
+    </classes>
+  </test>
+</suite>

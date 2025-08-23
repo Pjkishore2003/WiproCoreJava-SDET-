@@ -3,7 +3,7 @@
   <test name="LoginTests">
     <classes>
       <!-- Make sure this class name matches your file's package and class name exactly -->
-      <class name="com.wipro.testng.firstTest"/>
+      <class name="com.wipro.testng.TestNGPriorityEg"/>
     </classes>
   </test>
 </suite>

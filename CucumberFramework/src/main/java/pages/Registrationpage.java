@@ -1,0 +1,84 @@
+package pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+public class Registrationpage {
+    WebDriver driver;
+
+    public Registrationpage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    By firstName = By.xpath("//*[@id=\"name\"]");
+    By email = By.xpath("//*[@id=\"email\"]");
+    By gender = By.xpath("//*[@id=\"gender\"]");
+    By mobile = By.xpath("//*[@id=\"mobile\"]");
+    By dob = By.xpath("//*[@id=\"dob\"]t");
+    By subject = By.xpath("//*[@id=\"subjects\"]");
+    By hobbies = By.xpath("//*[@id=\"hobbies\"]");
+    By pictureUpload = By.xpath("//*[@id=\"picture\"]");
+    By currentAddress = By.xpath("//*[@id=\"picture\"]");
+    By stateDropdown = By.xpath("//*[@id=\"state\"]");
+    By cityDropdown = By.xpath("//*[@id=\"city\"]");
+    By submitButton = By.xpath("/html/body/main/div/div/div[2]/form/div[11]/input");
+    By confirmationMessage = By.id("example-modal-sizes-title-lg");
+
+    public void enterFirstName(String fname) {
+        driver.findElement(firstName).sendKeys(fname);
+    }
+
+    public void enterEmail(String mail) {
+        driver.findElement(email).sendKeys(mail);
+    }
+
+    public void selectGender() {
+        driver.findElement(gender).click();
+    }
+
+    public void enterMobile(String mob) {
+        driver.findElement(mobile).sendKeys(mob);
+    }
+
+    public void enterDOB(String date) {
+        WebElement dobField = driver.findElement(dob);
+        dobField.click();
+        dobField.clear();
+        dobField.sendKeys(date);
+        dobField.submit();
+    }
+
+    public void enterSubject(String sub) {
+        driver.findElement(subject).sendKeys(sub + "\n");
+    }
+
+    public void selectHobbies() {
+        driver.findElement(hobbies).click();
+    }
+
+    public void uploadPicture(String filePath) {
+        driver.findElement(pictureUpload).sendKeys(filePath);
+    }
+
+    public void enterCurrentAddress(String address) {
+        driver.findElement(currentAddress).sendKeys(address);
+    }
+
+    public void selectState(String state) {
+        driver.findElement(stateDropdown).sendKeys(state + "\n");
+    }
+
+    public void selectCity(String city) {
+        driver.findElement(cityDropdown).sendKeys(city + "\n");
+    }
+
+    public void submitForm() {
+        driver.findElement(submitButton).click();
+    }
+
+    public String getConfirmationMessage() {
+        return driver.findElement(confirmationMessage).getText();
+    }
+}

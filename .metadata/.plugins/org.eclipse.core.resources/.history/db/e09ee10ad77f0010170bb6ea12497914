@@ -1,0 +1,53 @@
+package pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class YourPageClass {
+
+    WebDriver driver;
+
+    public YourPageClass(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void enterFirstName(String fname) {
+        driver.findElement(By.id("firstName")).sendKeys(fname);
+    }
+
+    public void enterLastName(String lname) {
+        driver.findElement(By.id("lastName")).sendKeys(lname);
+    }
+
+    public void enterEmail(String email) {
+        driver.findElement(By.id("email")).sendKeys(email);
+    }
+
+    public void enterPassword(String password) {
+        driver.findElement(By.id("password")).sendKeys(password);
+    }
+
+    public void enterAddress(String address) {
+        driver.findElement(By.id("address")).sendKeys(address);
+    }
+
+    public void enterCity(String city) {
+        driver.findElement(By.id("city")).sendKeys(city);
+    }
+
+    public void enterState(String state) {
+        driver.findElement(By.id("state")).sendKeys(state);
+    }
+
+    public void enterCountry(String country) {
+        driver.findElement(By.id("country")).sendKeys(country);
+    }
+
+    public void enterZipCode(String zip) {
+        driver.findElement(By.id("zipCode")).sendKeys(zip);
+    }
+
+    public void enterPhone(String phone) {
+        driver.findElement(By.id("phone")).sendKeys(phone);
+    }
+}

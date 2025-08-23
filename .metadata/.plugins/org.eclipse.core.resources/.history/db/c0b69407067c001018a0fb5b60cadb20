@@ -1,0 +1,72 @@
+package com.wipro.testng;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import java.time.Duration;
+import java.util.List;
+
+public class Labtask2 {
+
+    WebDriver driver;
+
+    @BeforeMethod
+    public void setup() {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://phptravels.net/");
+    }
+
+    @Test
+    public void bookAFlight() throws InterruptedException {
+      
+        WebElement flight = driver.findElement(By.xpath("//a[contains(@href,'flights')]"));
+        flight.click();
+
+        Thread.sleep(2000);
+
+        WebElement fromInput = driver.findElement(By.xpath("//input[@id='autocomplete']"));
+        fromInput.clear();
+        fromInput.sendKeys("New York");
+        Thread.sleep(2000);
+        fromInput.sendKeys(Keys.ENTER);
+
+        WebElement toInput = driver.findElement(By.xpath("//input[@id='autocomplete2']"));
+        toInput.clear();
+        toInput.sendKeys("London");
+        Thread.sleep(2000);
+        toInput.sendKeys(Keys.ENTER);
+
+        
+        WebElement dep = driver.findElement(By.xpath("//*[@id=\"departure\"]"));
+        dep.click();
+        WebElement day = driver.findElement(By.xpath("//td[@class='day ' and text()='30']"));
+        day.click();  
+
+        WebElement search = driver.findElement(By.xpath("//button[contains(text(),'Search')]"));
+        search.click();
+
+        Thread.sleep(5000);
+        List<WebElement> flights = driver.findElements(By.xpath("//div[contains(@class,'card-flight')]"));
+        Assert.assertTrue(flights.size() > 0, "No flights found!");
+
+        System.out.println(" Flights found: " + flights.size());
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+    }
+}
+
+
+

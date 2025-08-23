@@ -1,0 +1,84 @@
+package StepDefinitions;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import io.cucumber.java.en.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import utils.DriverFactory;
+
+public class StepDefinitions {
+	WebDriver driver = DriverFactory.getDriver();
+
+	@Given("User is on the login page")
+	public void user_is_on_the_login_page() throws InterruptedException {
+	    driver = DriverFactory.getDriver(); // Get driver from factory
+	    driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+	    Thread.sleep(2000);
+	}
+
+    
+    
+    @When("user enters the {string} and {string}")
+    public void user_enters_the(String username, String password) throws InterruptedException {
+        WebElement usernameField = driver.findElement(By.name("username"));
+        usernameField.clear();
+        usernameField.sendKeys(username);
+        Thread.sleep(1000);
+
+        WebElement passwordField = driver.findElement(By.name("password"));
+        passwordField.clear();
+        passwordField.sendKeys(password);
+        Thread.sleep(1000);
+    }
+
+    @When("user clicks on the login button")
+    public void user_clicks_on_the_login_button() throws InterruptedException {
+        WebElement loginButton = driver.findElement(By.xpath("//button[normalize-space()='Login']"));
+        loginButton.click();
+        Thread.sleep(2000);
+    }
+
+    @Then("user should see an error message {string}")
+    public void user_should_see_error_message(String expectedMessage) {
+        try {
+            WebElement errorElement = driver.findElement(By.xpath("//p[contains(@class,'oxd-alert-content-text')]"));
+            String actualMessage = errorElement.getText();
+            if (actualMessage.equalsIgnoreCase(expectedMessage)) {
+                System.out.println("Correct error message displayed: " + actualMessage);
+            } else {
+                System.out.println(" Incorrect error message. Found: " + actualMessage);
+            }
+        } catch (Exception e) {
+            System.out.println("Error message not found.");
+        }
+    }
+
+    @Then("user remains on the login page")
+    public void user_remains_on_the_login_page() {
+        String currentUrl = driver.getCurrentUrl();
+        if (currentUrl.contains("/auth/login")) {
+            System.out.println("User remains on the login page");
+        } else {
+            System.out.println(" User was redirected from login page");
+        }
+    }
+
+    @Then("user is navigated to the home page")
+    public void user_is_navigated_to_the_home_page() {
+        try {
+            WebElement dashboard = driver.findElement(By.xpath("//h6[text()='Dashboard']"));
+            WebElement fakeElement = driver.findElement(By.id("thisElementDoesNotExist"));
+            if (dashboard.isDisplayed()) {
+                System.out.println("User is on the home page");
+            } else {
+                System.out.println("Dashboard not visible");
+            }
+        } catch (Exception e) {
+            System.out.println("Home page not found");
+        }
+    }
+}

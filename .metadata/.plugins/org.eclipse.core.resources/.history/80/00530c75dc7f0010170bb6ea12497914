@@ -1,0 +1,21 @@
+package TestRunner;
+
+import org.junit.runner.RunWith;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "src/test/resource/Features/filefilling.feature",
+    glue = {"StepDefinitions", "Hooks"},
+    tags = "@Sanity",
+    plugin = {
+        "pretty",  // Neat console output
+        "html:target/cucumber-reports/cucumber-html-report.html",  // HTML report
+        "json:target/cucumber-reports/cucumber.json",              // JSON report
+        "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:" // Extent Report
+    },
+    monochrome = true
+)
+public class MyTestRunner {
+}

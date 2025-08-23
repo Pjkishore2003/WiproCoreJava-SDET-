@@ -1,0 +1,74 @@
+package StepDefinitions;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import io.cucumber.java.en.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class StepDefinitions {
+    public static WebDriver driver;
+
+    @Given("User is on the login page")
+    public void user_is_on_the_login_page() throws InterruptedException {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver(chromeOptions);
+        driver.manage().window().maximize();
+        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        Thread.sleep(2000);
+    }
+
+    @When("user enters username as {string}")
+    public void user_enters_username_as(String username) throws InterruptedException {
+        WebElement usernameField = driver.findElement(By.name("username"));
+        usernameField.clear();
+        usernameField.sendKeys(username);
+        Thread.sleep(1000);
+    }
+
+    @When("user enters password as {string}")
+    public void user_enters_password_as(String password) throws InterruptedException {
+        WebElement passwordField = driver.findElement(By.name("password"));
+        passwordField.clear();
+        passwordField.sendKeys(password);
+        Thread.sleep(1000);
+    }
+
+    @When("user clicks on the login button")
+    public void user_clicks_on_the_login_button() throws InterruptedException {
+        WebElement loginButton = driver.findElement(By.xpath("//button[normalize-space()='Login']"));
+        loginButton.click();
+        Thread.sleep(2000);
+    }
+
+    @Then("user should be navigated to the home page")
+    public void user_should_be_navigated_to_home_page() {
+        try {
+            WebElement admin = driver.findElement(By.xpath("//li[1]//a[1]//span[1]"));
+            if (admin.isDisplayed()) {
+                System.out.println("User is on the home page");
+            }
+        } catch (Exception e) {
+            System.out.println(" User is not on the home page");
+        }
+    }
+
+    @Then("user should see an error message {string}")
+    public void user_should_see_error_message(String expectedMessage) {
+        try {
+            WebElement errorMsg = driver.findElement(By.xpath("//p[contains(@class,'oxd-alert-content-text')]"));
+            String actualMessage = errorMsg.getText();
+            if (actualMessage.equalsIgnoreCase(expectedMessage)) {
+                System.out.println("Correct error message displayed: " + actualMessage);
+            } else {
+                System.out.println("Unexpected error message: " + actualMessage);
+            }
+        } catch (Exception e) {
+            System.out.println(" Error message not displayed");
+        }
+    }
+}

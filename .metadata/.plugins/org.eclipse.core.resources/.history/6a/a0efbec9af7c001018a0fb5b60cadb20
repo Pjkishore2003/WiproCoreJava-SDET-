@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="functionaltesting" verbose="1">
+  <test name="functionaltestxases">
+  <groups>
+  <run>
+  <include name="Regression"/>
+  <include name="Sanity/">
+  </include>
+  </run>
+  </groups>
+ 
+    <classes>
+      <class name="com.wipro.testng.FormFillingLab1.java"/>
+    </classes>
+  </test>
+
+
+</suite>

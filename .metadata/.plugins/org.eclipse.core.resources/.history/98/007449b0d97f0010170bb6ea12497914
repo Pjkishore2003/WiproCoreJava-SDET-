@@ -1,0 +1,19 @@
+package TestRunner;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
+import org.testng.annotations.DataProvider;
+
+@CucumberOptions(
+    features = {"src/test/resource/Features/filefilling.feature"},
+    glue = {"StepDefinitions", "Hooks"},
+    plugin = {"pretty", "json:target/cucumber-reports/cucumber.json", "html:target/cucumber-reports.html", "io.cucumber.core.plugin.PublishReportPlugin"},
+    			
+    monochrome = true
+)
+public class MyTestRunner extends AbstractTestNGCucumberTests {
+    @Override
+    @DataProvider(parallel = true)
+    public Object[][] scenarios() {
+        return super.scenarios();
+    }
+}

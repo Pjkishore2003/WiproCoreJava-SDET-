@@ -1,0 +1,87 @@
+package StepDefinitions;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.cucumber.java.en.*;
+import pages.FormPage;
+
+public class Registrationpage1 {
+
+    WebDriver driver;
+    FormPage formPage;
+
+    @Given("User is on the registration page")
+    public void user_is_on_registration_page() {
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://www.tutorialspoint.com/selenium/practice/selenium_automation_practice.php");
+        formPage = new FormPage(driver);
+    }
+
+    @When("User enters first name {string}")
+    public void user_enters_first_name(String firstName) throws InterruptedException {
+        formPage.enterFirstName(firstName);
+    }
+
+    @When("User enters last name {string}")
+    public void user_enters_last_name(String lastName) throws InterruptedException {
+        formPage.enterLastName(lastName);
+    }
+
+    @When("User enters phone number {string}")
+    public void user_enters_phone_number(String phone) throws InterruptedException {
+        formPage.enterPhone(phone);
+    }
+
+    @When("User enters email {string}")
+    public void user_enters_email(String email) throws InterruptedException {
+        formPage.enterEmail(email);
+    }
+
+    @When("User enters address {string}")
+    public void user_enters_address(String address) throws InterruptedException {
+        formPage.enterAddress(address);
+    }
+
+    @When("User enters city {string}")
+    public void user_enters_city(String city) throws InterruptedException {
+        formPage.enterCity(city);
+    }
+
+    @When("User enters state {string}")
+    public void user_enters_state(String state) throws InterruptedException {
+        formPage.enterState(state);
+    }
+
+    @When("User enters postal code {string}")
+    public void user_enters_postal_code(String postalCode) throws InterruptedException {
+        formPage.enterPostalCode(postalCode);
+    }
+
+    @When("User selects country {string}")
+    public void user_selects_country(String country) throws InterruptedException {
+        formPage.selectCountry(country);
+    }
+
+    @When("User enters username {string}")
+    public void user_enters_username(String username) throws InterruptedException {
+        formPage.enterUsername(username);
+    }
+
+    @When("User enters password {string}")
+    public void user_enters_password(String password) throws InterruptedException {
+        formPage.enterPassword(password);
+    }
+
+    @When("User enters confirm password {string}")
+    public void user_enters_confirm_password(String confirmPassword) throws InterruptedException {
+        formPage.enterConfirmPassword(confirmPassword);
+    }
+
+    @Then("User submits the registration form")
+    public void user_submits_the_registration_form() throws InterruptedException {
+        formPage.clickSubmit();
+        driver.quit(); // Optional: close browser after test
+    }
+}

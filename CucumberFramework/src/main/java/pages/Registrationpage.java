@@ -96,8 +96,12 @@ public class Registrationpage {
     }
 
     public void submitForm() {
-    WebElement submit = driver.findElement(submitButton);
-    ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", submit);
+    // Wait for the submit button to be clickable before interacting with it
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebElement submit = wait.until(ExpectedConditions.elementToBeClickable(submitButton));
+    
+    // Use JavascriptExecutor to click the element
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submit);
 }
 
 

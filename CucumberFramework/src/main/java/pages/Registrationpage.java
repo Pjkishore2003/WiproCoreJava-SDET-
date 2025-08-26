@@ -94,13 +94,24 @@ public class Registrationpage {
     }
 
     public void submitForm() {
-        // Use Explicit Wait to ensure the element is clickable before clicking
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement submit = wait.until(ExpectedConditions.elementToBeClickable(submitButton));
-        
-        // Use JavascriptExecutor to perform the click
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submit);
+    WebElement submit = driver.findElement(submitButton);
+
+    // Scroll into view
+    ((org.openqa.selenium.JavascriptExecutor) driver)
+        .executeScript("arguments[0].scrollIntoView({block: 'center'});", submit);
+
+    // Optional wait to allow any overlay animations to finish
+    try {
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
     }
+
+    // Use JavaScript to click the element
+    ((org.openqa.selenium.JavascriptExecutor) driver)
+        .executeScript("arguments[0].click();", submit);
+}
+
 
     public String getConfirmationMessage() {
         // You may need to add an explicit wait here as well

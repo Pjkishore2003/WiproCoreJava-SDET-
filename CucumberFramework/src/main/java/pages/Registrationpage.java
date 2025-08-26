@@ -54,9 +54,26 @@ public class Registrationpage {
         driver.findElement(subject).sendKeys(sub + "\n");
     }
 
-    public void selectHobbies() {
-        driver.findElement(hobbies).click();
+   public void selectHobbies(String[] hobbies) {
+    for (String hobby : hobbies) {
+        hobby = hobby.trim().toLowerCase();
+
+        switch (hobby) {
+            case "sports":
+                driver.findElement(By.id("hobbies-sports")).click();
+                break;
+            case "reading":
+                driver.findElement(By.id("hobbies-reading")).click();
+                break;
+            case "music":
+                driver.findElement(By.id("hobbies-music")).click();
+                break;
+            default:
+                System.out.println("Unknown hobby: " + hobby);
+        }
     }
+}
+
 
     public void uploadPicture(String filePath) {
         driver.findElement(pictureUpload).sendKeys(filePath);

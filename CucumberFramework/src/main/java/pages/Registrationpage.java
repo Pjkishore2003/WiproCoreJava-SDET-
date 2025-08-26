@@ -20,14 +20,14 @@ public class Registrationpage {
     By email = By.xpath("//*[@id=\"email\"]");
     By gender = By.xpath("//*[@id=\"gender\"]");
     By mobile = By.xpath("//*[@id=\"mobile\"]");
-    By dob = By.xpath("//*[@id=\"dob\"]t");
+    By dob = By.id("dob"); // Fixed typo
     By subject = By.xpath("//*[@id=\"subjects\"]");
     By hobbies = By.xpath("//*[@id=\"hobbies\"]");
     By pictureUpload = By.xpath("//*[@id=\"picture\"]");
-    By currentAddress = By.xpath("//*[@id=\"picture\"]");
+    By currentAddress = By.id("currentAddress"); // Corrected locator
     By stateDropdown = By.xpath("//*[@id=\"state\"]");
     By cityDropdown = By.xpath("//*[@id=\"city\"]");
-    By submitButton = By.xpath("/html/body/main/div/div/div[2]/form/div[11]/input");
+    By submitButton = By.xpath("//input[@name='submit']"); // Better locator
     By confirmationMessage = By.id("example-modal-sizes-title-lg");
 
     public void enterFirstName(String fname) {
@@ -58,26 +58,24 @@ public class Registrationpage {
         driver.findElement(subject).sendKeys(sub + "\n");
     }
 
-   public void selectHobbies(String[] hobbies) {
-    for (String hobby : hobbies) {
-        hobby = hobby.trim().toLowerCase();
-
-        switch (hobby) {
-            case "sports":
-                driver.findElement(By.id("hobbies-sports")).click();
-                break;
-            case "reading":
-                driver.findElement(By.id("hobbies-reading")).click();
-                break;
-            case "music":
-                driver.findElement(By.id("hobbies-music")).click();
-                break;
-            default:
-                System.out.println("Unknown hobby: " + hobby);
+    public void selectHobbies(String[] hobbies) {
+        for (String hobby : hobbies) {
+            hobby = hobby.trim().toLowerCase();
+            switch (hobby) {
+                case "sports":
+                    driver.findElement(By.id("hobbies-sports")).click();
+                    break;
+                case "reading":
+                    driver.findElement(By.id("hobbies-reading")).click();
+                    break;
+                case "music":
+                    driver.findElement(By.id("hobbies-music")).click();
+                    break;
+                default:
+                    System.out.println("Unknown hobby: " + hobby);
+            }
         }
     }
-}
-
 
     public void uploadPicture(String filePath) {
         driver.findElement(pictureUpload).sendKeys(filePath);
@@ -96,16 +94,16 @@ public class Registrationpage {
     }
 
     public void submitForm() {
-    // Wait for the submit button to be clickable before interacting with it
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    WebElement submit = wait.until(ExpectedConditions.elementToBeClickable(submitButton));
-    
-    // Use JavascriptExecutor to click the element
-    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submit);
-}
-
+        // Use Explicit Wait to ensure the element is clickable before clicking
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement submit = wait.until(ExpectedConditions.elementToBeClickable(submitButton));
+        
+        // Use JavascriptExecutor to perform the click
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submit);
+    }
 
     public String getConfirmationMessage() {
+        // You may need to add an explicit wait here as well
         return driver.findElement(confirmationMessage).getText();
     }
 }

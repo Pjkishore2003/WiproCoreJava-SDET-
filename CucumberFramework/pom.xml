@@ -83,6 +83,13 @@
       <version>2.0.9</version>
       <scope>test</scope>
     </dependency>
+    <!-- Lombok -->
+<dependency>
+  <groupId>org.projectlombok</groupId>
+  <artifactId>lombok</artifactId>
+  <version>1.18.32</version> <!-- or latest available -->
+  <scope>provided</scope>
+</dependency>
   </dependencies>
 
   <build>

@@ -1,12 +1,10 @@
 package TestRunner;
-
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
     features = "src/test/resources/Features/filefilling.feature",
     glue = {"StepDefinitions", "Hooks"},
-    tags = "@Sanity",
     plugin = {
         "pretty",
         "html:target/cucumber-reports/cucumber-html-report.html",
@@ -15,5 +13,6 @@ import io.cucumber.testng.CucumberOptions;
     },
     monochrome = true
 )
-public class MyTestRunner extends AbstractTestNGCucumberTests{
+public class MyTestRunner1 extends AbstractTestNGCucumberTests{
 }
+

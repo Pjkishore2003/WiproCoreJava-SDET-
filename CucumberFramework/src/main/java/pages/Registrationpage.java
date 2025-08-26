@@ -94,23 +94,22 @@ public class Registrationpage {
     }
 
     public void submitForm() {
-    WebElement submit = driver.findElement(submitButton);
+    WebElement submit = driver.findElement(By.xpath("//input[@name='submit']"));
 
-    // Scroll into view
-    ((org.openqa.selenium.JavascriptExecutor) driver)
-        .executeScript("arguments[0].scrollIntoView({block: 'center'});", submit);
+    // Scroll to the element
+    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", submit);
 
-    // Optional wait to allow any overlay animations to finish
+    // Wait a bit for any overlay to settle (can be replaced with WebDriverWait later)
     try {
         Thread.sleep(1000);
     } catch (InterruptedException e) {
         e.printStackTrace();
     }
 
-    // Use JavaScript to click the element
-    ((org.openqa.selenium.JavascriptExecutor) driver)
-        .executeScript("arguments[0].click();", submit);
+    // Click using JavaScript to bypass overlay issue
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submit);
 }
+
 
 
     public String getConfirmationMessage() {

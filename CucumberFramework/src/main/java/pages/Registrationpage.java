@@ -92,8 +92,10 @@ public class Registrationpage {
     }
 
     public void submitForm() {
-        driver.findElement(submitButton).click();
-    }
+    WebElement submit = driver.findElement(submitButton);
+    ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", submit);
+}
+
 
     public String getConfirmationMessage() {
         return driver.findElement(confirmationMessage).getText();

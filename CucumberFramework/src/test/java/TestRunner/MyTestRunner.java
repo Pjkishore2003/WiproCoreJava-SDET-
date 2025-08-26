@@ -4,15 +4,15 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
     features = "src/test/resources/Features/filefilling.feature",
-    glue = {"StepDefinitions", "Hooks"},
+    glue = {"StepDefinitions","Hooks"},
+    tags = "@sanity",
     plugin = {
         "pretty",
-        "html:target/cucumber-reports/cucumber-html-report.html",
-        "json:target/cucumber-reports/cucumber.json",
+        "html:target/cucumber-html-report",
+        "json:target/cucumber.json",
         "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
     },
     monochrome = true
 )
-public class MyTestRunner1 extends AbstractTestNGCucumberTests{
+public class MyTestRunner extends AbstractTestNGCucumberTests {
 }
-

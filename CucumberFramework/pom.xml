@@ -86,32 +86,32 @@
   </dependencies>
 
   <build>
-    <plugins>
-      <!-- Maven Compiler -->
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
-        <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
-        </configuration>
-      </plugin>
+  <plugins>
+    <plugin>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.11.0</version>
+      <configuration>
+        <source>${maven.compiler.source}</source>
+        <target>${maven.compiler.target}</target>
+        <compilerArgs>
+          <arg>-parameters</arg>
+          <arg>--add-opens</arg>
+          <arg>jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+        </compilerArgs>
+      </configuration>
+    </plugin>
 
-      <!-- Maven Surefire Plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.1.2</version>
-        <configuration>
-          <includes>
-            <!-- Match your TestNG runner class; can use wildcards -->
-            <include>**/MyTestRunner.java</include>
-            <!-- or if issues persist try -->
-            <!-- <include>**/*Test.java</include> -->
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>3.1.2</version>
+      <configuration>
+        <includes>
+          <include>**/MyTestRunner.java</include>
           </includes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
 
 </project>

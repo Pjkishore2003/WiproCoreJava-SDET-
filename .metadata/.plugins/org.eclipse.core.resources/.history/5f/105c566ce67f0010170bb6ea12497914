@@ -1,0 +1,106 @@
+package pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+public class Registrationpage {
+    WebDriver driver;
+
+    public Registrationpage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    By firstName = By.id("firstName");
+    By email = By.id("userEmail");
+    By genderMale = By.xpath("//label[text()='Male']");
+    By genderFemale = By.xpath("//label[text()='Female']");
+    By genderOther = By.xpath("//label[text()='Other']");
+    By mobile = By.id("userNumber");
+    By dob = By.id("dateOfBirthInput");
+    By subject = By.id("subjectsInput");
+    By hobbiesSports = By.xpath("//label[text()='Sports']");
+    By hobbiesReading = By.xpath("//label[text()='Reading']");
+    By hobbiesMusic = By.xpath("//label[text()='Music']");
+    By pictureUpload = By.id("uploadPicture");
+    By currentAddress = By.id("currentAddress");
+    By stateDropdown = By.id("react-select-3-input");
+    By cityDropdown = By.id("react-select-4-input");
+    By submitButton = By.id("submit");
+    By confirmationMessage = By.id("example-modal-sizes-title-lg");
+
+    public void enterFirstName(String fname) {
+        driver.findElement(firstName).sendKeys(fname);
+    }
+
+    public void enterEmail(String mail) {
+        driver.findElement(email).sendKeys(mail);
+    }
+
+    public void selectGender(String gender) {
+        if (gender.equalsIgnoreCase("Male")) {
+            driver.findElement(genderMale).click();
+        } else if (gender.equalsIgnoreCase("Female")) {
+            driver.findElement(genderFemale).click();
+        } else {
+            driver.findElement(genderOther).click();
+        }
+    }
+
+    public void enterMobile(String mob) {
+        driver.findElement(mobile).sendKeys(mob);
+    }
+
+    public void enterDOB(String date) {
+        WebElement dobField = driver.findElement(dob);
+        dobField.click();
+        dobField.clear();
+        dobField.sendKeys(date);
+        dobField.submit();
+    }
+
+    public void enterSubject(String sub) {
+        driver.findElement(subject).sendKeys(sub + "\n");
+    }
+
+    public void selectHobbies(String... hobbies) {
+        for (String hobby : hobbies) {
+            switch (hobby.toLowerCase()) {
+                case "sports":
+                    driver.findElement(hobbiesSports).click();
+                    break;
+                case "reading":
+                    driver.findElement(hobbiesReading).click();
+                    break;
+                case "music":
+                    driver.findElement(hobbiesMusic).click();
+                    break;
+            }
+        }
+    }
+
+    public void uploadPicture(String filePath) {
+        driver.findElement(pictureUpload).sendKeys(filePath);
+    }
+
+    public void enterCurrentAddress(String address) {
+        driver.findElement(currentAddress).sendKeys(address);
+    }
+
+    public void selectState(String state) {
+        driver.findElement(stateDropdown).sendKeys(state + "\n");
+    }
+
+    public void selectCity(String city) {
+        driver.findElement(cityDropdown).sendKeys(city + "\n");
+    }
+
+    public void submitForm() {
+        driver.findElement(submitButton).click();
+    }
+
+    public String getConfirmationMessage() {
+        return driver.findElement(confirmationMessage).getText();
+    }
+}

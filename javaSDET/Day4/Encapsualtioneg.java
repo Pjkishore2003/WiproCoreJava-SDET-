@@ -1,0 +1,31 @@
+package pack4;
+
+public class Encapsualtioneg {
+	private String name;
+	private int age;
+	public String getName() {
+		return name;
+		
+	}
+	public void setName(String name) {
+		this.name=name;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Encapsualtioneg obj =new Encapsualtioneg();
+		obj.setAge(23);
+		obj.setName("Kishore");
+		System.out.println(obj.setAge);
+		System.out.println(obj.setName
+				);
+
+	}
+
+}

@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="functionaltesting" verbose="1" parallel="classes" thread-count="3">
+  <test name="functionaltestcases">
+    <groups>
+      <run>
+        <exclude name="sanity"/>
+      </run>
+    </groups>
+
+    <classes>
+      <class name="com.wipro.testng.ParallelEg"/>
+    </classes>
+  </test>
+</suite>

@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="functionaltesting">
+    <test name="FormTest">
+        <groups>
+            <run>
+                <include name="sanity"/>
+                <!-- or include "regression" depending on what you want -->
+            </run>
+        </groups>
+        <classes>
+            <class name="com.wipro.testng.TestNGGroupingEg" />
+        </classes>
+    </test>
+</suite>

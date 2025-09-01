@@ -1,0 +1,59 @@
+package StepDefinitions;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class StepDefinitions {
+	public static WebDriver driver;
+	
+	@Given("User is on the login page")
+	public void user_is_on_the_login_page() throws InterruptedException{
+		ChromeOptions chromeoptions = new ChromeOptions();
+		WebDriverManager.chromedriver().setup();
+		driver = new ChromeDriver(chromeoptions);
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		Thread.sleep(2000);
+	}
+
+	@When("user enters the username")
+	public void user_enters_the_username() throws InterruptedException {
+		WebElement username = driver.findElement(By.name("username"));
+		username.sendKeys("Admin");
+		Thread.sleep(2000);
+	}
+
+	@When("user enters teh password")
+	public void user_enters_teh_password() throws InterruptedException{
+		WebElement username = driver.findElement(By.name("password"));
+		username.sendKeys("admin123");
+		Thread.sleep(2000);
+	}
+
+	@When("user clicks on the login button")
+	public void user_clicks_on_the_login_button() throws InterruptedException{
+		WebElement button =driver.findElement(By.xpath("//button[normalize-space()='Login']"));
+        button.click();
+		Thread.sleep(1000);
+	}
+
+	@Then("user is naqvigated to home page")
+	public void user_is_naqvigated_to_home_page() {
+		WebElement admin = driver.findElement(By.xpath("//li[1]//a[1]//span[1]"));
+		 
+		if (admin.isDisplayed()) {
+			System.out.println("User is on the home page");
+		} else {
+ 
+			System.out.println("User is not on the home page");
+	    }
+
+}
+}

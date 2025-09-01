@@ -1,0 +1,88 @@
+package StepDefinitions;
+
+import java.time.Duration;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import io.cucumber.java.en.*;
+import pages.Registrationpage;
+
+public class StudentFormSteps {
+
+    WebDriver driver;
+    Registrationpage formPage;
+
+    @Given("User is on the Selenium Practice Registration page")
+    public void user_is_on_the_selenium_practice_registration_page() {
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.tutorialspoint.com/selenium/practice/selenium_automation_practice.php");
+
+        formPage = new Registrationpage(driver);
+    }
+
+    @When("User enters Name {string}")
+    public void user_enters_name(String name) {
+        formPage.enterFirstName(name);
+    }
+
+    @When("User enters Email {string}")
+    public void user_enters_email(String email) {
+        formPage.enterEmail(email);
+    }
+
+    @When("User selects Gender {string}")
+    public void user_selects_gender(String gender) {
+        formPage.selectGender(gender);
+    }
+
+    @When("User enters Mobile Number {string}")
+    public void user_enters_mobile_number(String mobile) {
+        formPage.enterMobile(mobile);
+    }
+
+    @When("User enters Date of Birth {string}")
+    public void user_enters_date_of_birth(String dob) {
+        formPage.enterDOB(dob);
+    }
+
+    @When("User enters Subject {string}")
+    public void user_enters_subject(String subject) {
+        formPage.enterSubject(subject);
+    }
+
+    @When("User selects Hobbies {string}")
+    public void user_selects_hobbies(String hobby) {
+        // Supporting multiple hobbies separated by comma
+        String[] hobbies = hobby.split(",");
+        formPage.selectHobbies(hobbies);
+    }
+
+    @When("User uploads Picture {string}")
+    public void user_uploads_picture(String path) {
+        formPage.uploadPicture(path);
+    }
+
+    @When("User enters Current Address {string}")
+    public void user_enters_current_address(String address) {
+        formPage.enterCurrentAddress(address);
+    }
+
+    @When("User selects State {string} and City {string}")
+    public void user_selects_state_and_city(String state, String city) {
+        formPage.selectState(state);
+        formPage.selectCity(city);
+    }
+
+    @Then("User submits the form")
+    public void user_submits_the_form() {
+        formPage.submitForm();
+    }
+
+    @Then("User should see the confirmation message")
+    public void user_should_see_the_confirmation_message() {
+        String message = formPage.getConfirmationMessage();
+        System.out.println("Confirmation Message: " + message);
+        driver.quit();
+    }
+}

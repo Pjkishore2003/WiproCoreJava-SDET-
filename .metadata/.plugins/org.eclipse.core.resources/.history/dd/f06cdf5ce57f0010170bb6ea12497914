@@ -1,0 +1,35 @@
+#Author: your.email@your.domain.com
+#Keywords Summary :
+#Feature: List of scenarios.
+#Scenario: Business rule through list of steps with arguments.
+#Given: Some precondition step
+#When: Some key actions
+#Then: To observe outcomes or validation
+#And,But: To enumerate more Given,When,Then steps
+#Scenario Outline: List of steps for data-driven as an Examples and <placeholder>
+#Examples: Container for s table
+#Background: List of steps run before each of the scenarios
+#""" (Doc Strings)
+#| (Data Tables)
+#@ (Tags/Labels):To group Scenarios
+#<> (placeholder)
+#""
+## (Comments)
+#Sample Feature Definition Template
+Feature: Student Registration Form
+
+  Scenario: Fill student registration form and submit
+    Given User is on the Selenium Practice Registration page
+    When User enters Name "kishore"
+    And User enters Email "pj@example.com"
+    And User selects Gender "Male"
+    And User enters Mobile Number "9876543210"
+    And User enters Date of Birth "05/01/2003"
+    And User enters Subject "Maths"
+    And User selects Hobbies "Sports" 
+    And User uploads Picture ""C:\Users\kisho\Downloads\wallpaperflare.com_wallpaper (1).jpg""
+    And User enters Current Address "123 hyd"
+    And User selects State "NCR" and City "Agra"
+    Then User submits the form
+    And User should see the confirmation message
+

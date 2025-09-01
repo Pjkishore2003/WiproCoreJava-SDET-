@@ -1,0 +1,18 @@
+/target/
+# Java
+*.class
+*.log
+*.jar
+*.war
+*.ear
+target/
+bin/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db

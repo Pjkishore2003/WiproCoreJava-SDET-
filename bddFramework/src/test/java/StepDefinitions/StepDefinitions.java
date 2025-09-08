@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import java.time.Duration;
-import java.util.UUID;
 
 public class StepDefinitions {
 
@@ -34,10 +33,15 @@ public class StepDefinitions {
 
     @When("I enter account details with username {string} and password {string}")
     public void i_enter_account_details_with_username_and_password(String username, String password) {
-        // Generate a unique username to avoid "user already exists" error
-        String uniqueUsername = username + UUID.randomUUID().toString().substring(0, 5);
+        String uniqueUsername = username + System.currentTimeMillis();
         demoblaze.enterRegistrationDetails(uniqueUsername, password);
     }
+    
+    @When("I enter account details with existing username {string} and password {string}")
+    public void i_enter_account_details_with_existing_username_and_password(String username, String password) {
+        demoblaze.enterRegistrationDetails(username, password);
+    }
+
 
     @When("I click the {string} button")
     public void i_click_the_button(String buttonText) {
@@ -55,16 +59,14 @@ public class StepDefinitions {
             wait.until(ExpectedConditions.alertIsPresent());
             Alert alert = driver.switchTo().alert();
             String actualAlertText = alert.getText();
-            if (actualAlertText.equals("This user already exist.")) {
-                System.out.println("User already exists, but proceeding with the test.");
-            } else {
-                Assert.assertEquals(actualAlertText, expectedAlertText);
-            }
+            Assert.assertEquals(actualAlertText, expectedAlertText);
             alert.accept();
         } catch (org.openqa.selenium.NoAlertPresentException e) {
             Assert.fail("No alert was displayed. Expected: " + expectedAlertText);
         } finally {
-            driver.quit();
+            if (driver != null) {
+                driver.quit();
+            }
         }
     }
 
@@ -83,25 +85,25 @@ public class StepDefinitions {
         Assert.assertTrue(demoblaze.isUserLoggedIn(username));
     }
 
-    @Then("I add {string} to the cart")
+    @When("I add {string} to the cart")
     public void i_add_to_the_cart(String product) {
         demoblaze.addProductToCart(product);
     }
 
-    @Then("I view the shopping cart")
+    @When("I view the shopping cart")
     public void i_view_the_shopping_cart() {
         demoblaze.navigateToCart();
-    }
-
-    @Then("the cart should display the correct products and total price")
-    public void the_cart_should_display_the_correct_products_and_total_price() {
-        // This is a placeholder for actual verification.
-        System.out.println("Cart verification step is a placeholder.");
     }
 
     @When("I navigate to the checkout page")
     public void i_navigate_to_the_checkout_page() {
         demoblaze.navigateToPlaceOrder();
+    }
+    
+    @When("I attempt to purchase without filling name and credit card")
+    public void i_attempt_to_purchase_without_filling_name_and_credit_card() {
+        demoblaze.fillOutPartialPurchaseForm("India", "Hyderabad", "September", "2025");
+        demoblaze.clickPurchaseButton();
     }
 
     @When("I fill in valid shipping and payment details")
@@ -118,6 +120,9 @@ public class StepDefinitions {
     public void a_purchase_confirmation_page_should_be_displayed() {
         Assert.assertTrue(demoblaze.isPurchaseSuccessful());
         demoblaze.confirmPurchase();
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
+

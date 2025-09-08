@@ -1,22 +1,16 @@
 package pages;
 
-import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Demoblaze {
     
     private WebDriver driver;
-    private WebDriverWait wait;
 
     // Locators for login and registration
     private final By loginLink = By.id("login2");
     private final By signupLink = By.id("signin2");
-    private final By loginModal = By.id("logInModal");
-    private final By signupModal = By.id("signInModal");
     private final By loginUsernameField = By.id("loginusername");
     private final By loginPasswordField = By.id("loginpassword");
     private final By signupUsernameField = By.id("sign-username");
@@ -42,7 +36,6 @@ public class Demoblaze {
     // Constructor
     public Demoblaze(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     // Actions
@@ -50,23 +43,23 @@ public class Demoblaze {
         driver.get("https://www.demoblaze.com/index.html");
     }
 
-    public void navigateToLoginPage() {
+    public void navigateToLoginPage() throws InterruptedException {
         driver.findElement(loginLink).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(loginModal));
     }
 
-    public void navigateToRegistrationPage() {
+    public void navigateToRegistrationPage() throws InterruptedException {
         driver.findElement(signupLink).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(signupModal));
     }
 
-    public void enterLoginCredentials(String username, String password) {
+    public void enterLoginCredentials(String username, String password) throws InterruptedException {
         driver.findElement(loginUsernameField).sendKeys(username);
+        Thread.sleep(2000);
         driver.findElement(loginPasswordField).sendKeys(password);
     }
 
-    public void enterRegistrationDetails(String username, String password) {
+    public void enterRegistrationDetails(String username, String password) throws InterruptedException {
         driver.findElement(signupUsernameField).sendKeys(username);
+        Thread.sleep(2000);
         driver.findElement(signupPasswordField).sendKeys(password);
     }
 
@@ -79,14 +72,17 @@ public class Demoblaze {
     }
 
     public boolean isUserLoggedIn(String username) {
-        WebElement welcomeMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeMessage));
-        return welcomeMsg.getText().contains("Welcome " + username.substring(0, 2));
+        WebElement welcomeMsg = driver.findElement(welcomeMessage);
+        return welcomeMsg.getText().contains("Welcome " + username);
     }
 
-    public void addProductToCart(String productName) {
+    public void addProductToCart(String productName) throws InterruptedException {
         driver.findElement(By.xpath("//a[normalize-space()='" + productName + "']")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(addToCartButton)).click();
-        wait.until(ExpectedConditions.alertIsPresent()).accept();
+        Thread.sleep(2000);
+        driver.findElement(addToCartButton).click();
+        Thread.sleep(2000);
+        driver.switchTo().alert().accept();
+        Thread.sleep(2000);
         driver.get("https://www.demoblaze.com/index.html");
     }
 
@@ -98,12 +94,28 @@ public class Demoblaze {
         driver.findElement(placeOrderButton).click();
     }
 
-    public void fillOutPurchaseForm(String name, String country, String city, String creditCard, String month, String year) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(nameField)).sendKeys(name);
+    public void fillOutPurchaseForm(String name, String country, String city, String creditCard, String month, String year) throws InterruptedException {
+        driver.findElement(nameField).sendKeys(name);
+        Thread.sleep(2000);
         driver.findElement(countryField).sendKeys(country);
+        Thread.sleep(2000);
         driver.findElement(cityField).sendKeys(city);
+        Thread.sleep(2000);
         driver.findElement(creditCardField).sendKeys(creditCard);
+        Thread.sleep(2000);
         driver.findElement(monthField).sendKeys(month);
+        Thread.sleep(2000);
+        driver.findElement(yearField).sendKeys(year);
+    }
+    
+    // **FIXED:** Added the missing method
+    public void fillOutPartialPurchaseForm(String country, String city, String month, String year) throws InterruptedException {
+        driver.findElement(countryField).sendKeys(country);
+        Thread.sleep(2000);
+        driver.findElement(cityField).sendKeys(city);
+        Thread.sleep(2000);
+        driver.findElement(monthField).sendKeys(month);
+        Thread.sleep(2000);
         driver.findElement(yearField).sendKeys(year);
     }
 
@@ -112,7 +124,6 @@ public class Demoblaze {
     }
 
     public boolean isPurchaseSuccessful() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(thankYouMessage));
         return driver.findElement(thankYouMessage).isDisplayed();
     }
 
@@ -120,3 +131,4 @@ public class Demoblaze {
         driver.findElement(okButton).click();
     }
 }
+

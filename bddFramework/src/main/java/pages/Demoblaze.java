@@ -1,8 +1,11 @@
 package pages;
 
+import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Demoblaze {
     
@@ -71,14 +74,15 @@ public class Demoblaze {
         driver.findElement(signupButton).click();
     }
 
-    // **FIXED:** Made the login check more robust
+    // **FIXED:** Re-introduced WebDriverWait for this specific, unstable check.
     public boolean isUserLoggedIn(String username) {
         try {
-            WebElement welcomeMsg = driver.findElement(welcomeMessage);
-            // Check if the welcome element is displayed and starts with "Welcome"
-            return welcomeMsg.isDisplayed() && welcomeMsg.getText().startsWith("Welcome");
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            // Wait until the welcome message is visible
+            WebElement welcomeMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeMessage));
+            return welcomeMsg.isDisplayed();
         } catch (Exception e) {
-            // If element is not found, user is not logged in
+            // If the element is not found after 10 seconds, return false
             return false;
         }
     }

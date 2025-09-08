@@ -46,23 +46,21 @@ public class Demoblaze {
         driver.get("https://www.demoblaze.com/index.html");
     }
 
-    public void navigateToLoginPage() throws InterruptedException {
+    public void navigateToLoginPage() {
         driver.findElement(loginLink).click();
     }
 
-    public void navigateToRegistrationPage() throws InterruptedException {
+    public void navigateToRegistrationPage() {
         driver.findElement(signupLink).click();
     }
 
-    public void enterLoginCredentials(String username, String password) throws InterruptedException {
+    public void enterLoginCredentials(String username, String password) {
         driver.findElement(loginUsernameField).sendKeys(username);
-        Thread.sleep(2000);
         driver.findElement(loginPasswordField).sendKeys(password);
     }
 
-    public void enterRegistrationDetails(String username, String password) throws InterruptedException {
+    public void enterRegistrationDetails(String username, String password) {
         driver.findElement(signupUsernameField).sendKeys(username);
-        Thread.sleep(2000);
         driver.findElement(signupPasswordField).sendKeys(password);
     }
 
@@ -74,26 +72,23 @@ public class Demoblaze {
         driver.findElement(signupButton).click();
     }
 
-    // **FIXED:** Re-introduced WebDriverWait for this specific, unstable check.
     public boolean isUserLoggedIn(String username) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            // Wait until the welcome message is visible
             WebElement welcomeMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeMessage));
             return welcomeMsg.isDisplayed();
         } catch (Exception e) {
-            // If the element is not found after 10 seconds, return false
             return false;
         }
     }
 
-    public void addProductToCart(String productName) throws InterruptedException {
+    public void addProductToCart(String productName) {
         driver.findElement(By.xpath("//a[normalize-space()='" + productName + "']")).click();
-        Thread.sleep(2000);
-        driver.findElement(addToCartButton).click();
-        Thread.sleep(2000);
-        driver.switchTo().alert().accept();
-        Thread.sleep(2000);
+        
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(addToCartButton)).click();
+        
+        wait.until(ExpectedConditions.alertIsPresent()).accept();
         driver.get("https://www.demoblaze.com/index.html");
     }
 
@@ -105,27 +100,19 @@ public class Demoblaze {
         driver.findElement(placeOrderButton).click();
     }
 
-    public void fillOutPurchaseForm(String name, String country, String city, String creditCard, String month, String year) throws InterruptedException {
+    public void fillOutPurchaseForm(String name, String country, String city, String creditCard, String month, String year) {
         driver.findElement(nameField).sendKeys(name);
-        Thread.sleep(2000);
         driver.findElement(countryField).sendKeys(country);
-        Thread.sleep(2000);
         driver.findElement(cityField).sendKeys(city);
-        Thread.sleep(2000);
         driver.findElement(creditCardField).sendKeys(creditCard);
-        Thread.sleep(2000);
         driver.findElement(monthField).sendKeys(month);
-        Thread.sleep(2000);
         driver.findElement(yearField).sendKeys(year);
     }
     
-    public void fillOutPartialPurchaseForm(String country, String city, String month, String year) throws InterruptedException {
+    public void fillOutPartialPurchaseForm(String country, String city, String month, String year) {
         driver.findElement(countryField).sendKeys(country);
-        Thread.sleep(2000);
         driver.findElement(cityField).sendKeys(city);
-        Thread.sleep(2000);
         driver.findElement(monthField).sendKeys(month);
-        Thread.sleep(2000);
         driver.findElement(yearField).sendKeys(year);
     }
 
@@ -134,7 +121,13 @@ public class Demoblaze {
     }
 
     public boolean isPurchaseSuccessful() {
-        return driver.findElement(thankYouMessage).isDisplayed();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(thankYouMessage));
+            return driver.findElement(thankYouMessage).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void confirmPurchase() {

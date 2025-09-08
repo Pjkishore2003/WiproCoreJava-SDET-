@@ -1,6 +1,7 @@
 package com.wipro.testNgproject;
 
 import java.time.Duration;
+import java.util.UUID; // Import UUID class
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -127,6 +128,110 @@ public class AppTest {
         Thread.sleep(2000);
     }
     
+    // invalid credentials
+
+    @Test(priority = 3, description = "TC_N01: Verifies sign up with an existing username")
+    public void testSignUpWithExistingUser() throws InterruptedException {
+        driver.get("https://www.demoblaze.com/index.html");
+        
+        driver.findElement(By.id("signin2")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signInModal")));
+        Thread.sleep(2000);
+
+        driver.findElement(By.id("sign-username")).sendKeys("tester");
+        driver.findElement(By.id("sign-password")).sendKeys("password");
+        driver.findElement(By.xpath("//button[text()='Sign up']")).click();
+        
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        String alertText = alert.getText();
+        Assert.assertEquals(alertText, "This user already exist.");
+        alert.accept();
+        Thread.sleep(2000);
+    }
+
+    @Test(priority = 4, description = "TC_N02: Verifies login with an incorrect password")
+    public void testLoginWithIncorrectPassword() throws InterruptedException {
+        driver.get("https://www.demoblaze.com/index.html");
+        
+        driver.findElement(By.id("login2")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("logInModal")));
+        Thread.sleep(2000);
+        
+        driver.findElement(By.id("loginusername")).sendKeys("tester");
+        driver.findElement(By.id("loginpassword")).sendKeys("incorrectpassword");
+        driver.findElement(By.xpath("//button[text()='Log in']")).click();
+
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        String alertText = alert.getText();
+        Assert.assertEquals(alertText, "Wrong password.");
+        alert.accept();
+        Thread.sleep(2000);
+    }
+    
+    @Test(priority = 5, description = "TC_N03 & N04: Verifies login with blank credentials")
+    public void testLoginWithBlankCredentials() throws InterruptedException {
+        driver.get("https://www.demoblaze.com/index.html");
+
+        driver.findElement(By.id("login2")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("logInModal")));
+        Thread.sleep(2000);
+        
+        driver.findElement(By.xpath("//button[text()='Log in']")).click();
+
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        String alertText = alert.getText();
+        Assert.assertEquals(alertText, "Please fill out Username and Password.");
+        alert.accept();
+        Thread.sleep(2000);
+    }
+    
+    @Test(priority = 6, description = "TC_N05: Signs up and then verifies checkout with missing required fields")
+    public void testSignUpAndCheckoutWithMissingFields() throws InterruptedException {
+        driver.get("https://www.demoblaze.com/index.html");
+        
+        WebElement loginLink = driver.findElement(By.id("login2"));
+        loginLink.click();
+        
+        Thread.sleep(2000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("logInModal")));
+        
+        driver.findElement(By.id("loginusername")).sendKeys("pjkishore");
+        Thread.sleep(2000);
+        driver.findElement(By.id("loginpassword")).sendKeys("pjkishore");
+        Thread.sleep(2000);
+        
+        driver.findElement(By.xpath("//button[text()='Log in']")).click();
+        Thread.sleep(2000);
+        
+        WebElement welcomeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nameofuser")));
+        Assert.assertTrue(welcomeMessage.getText().contains("Welcome pj"));
+        Thread.sleep(2000);
+        
+        driver.findElement(By.xpath("//a[normalize-space()='Samsung galaxy s6']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[normalize-space()='Add to cart']"))).click();
+        wait.until(ExpectedConditions.alertIsPresent()).accept();
+        
+        driver.findElement(By.id("cartur")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[normalize-space()='Place Order']"))).click();
+        
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("orderModal")));
+        Thread.sleep(2000);
+        
+        driver.findElement(By.id("country")).sendKeys("India");
+        driver.findElement(By.id("city")).sendKeys("Hyderabad");
+        driver.findElement(By.id("month")).sendKeys("September");
+        driver.findElement(By.id("year")).sendKeys("2025");
+        
+        driver.findElement(By.xpath("//button[normalize-space()='Purchase']")).click();
+
+        Alert purchaseAlert = wait.until(ExpectedConditions.alertIsPresent());
+        String alertText = purchaseAlert.getText();
+        
+        Assert.assertEquals(alertText, "Please fill out Name and Creditcard.");
+        purchaseAlert.accept();
+        Thread.sleep(2000);
+    }
+
     @AfterMethod
     public void teardown() {
         if (driver != null) {
